@@ -37,7 +37,7 @@ export default function App() {
   return (
     <>
       {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
-      <div className={showSplash ? "hidden" : "block"}>
+      <div className="min-h-screen flex flex-col">
         <BrowserRouter>
           <ScrollToTop />
           <Routes>
