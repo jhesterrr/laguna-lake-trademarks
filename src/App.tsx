@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { fetchAdminProfile } from "./store/adminStore";
+import { SplashScreen } from "./components/SplashScreen";
 import { HomePage } from "./pages/HomePage";
 import { ServicesPage } from "./pages/ServicesPage";
 import { ContactPage } from "./pages/ContactPage";
@@ -27,113 +28,120 @@ import { ClientLayout } from "./components/client/ClientLayout";
 import { ScrollToTop } from "./components/ScrollToTop";
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
   useEffect(() => {
     fetchAdminProfile();
   }, []);
 
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/faq" element={<FAQPage />} />
-        <Route path="/payment/success" element={<PaymentSuccessPage />} />
-        <Route path="/payment/failed" element={<PaymentFailedPage />} />
+    <>
+      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
+      <div className={showSplash ? "hidden" : "block"}>
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/payment/success" element={<PaymentSuccessPage />} />
+            <Route path="/payment/failed" element={<PaymentFailedPage />} />
 
-        {/* Admin Routes */}
-        <Route path="/admin/login" element={<AdminLoginPage />} />
-        <Route
-          path="/admin/dashboard"
-          element={
-            <AdminLayout>
-              <AdminDashboardPage />
-            </AdminLayout>
-          }
-        />
-        <Route
-          path="/admin/cases"
-          element={
-            <AdminLayout>
-              <AdminCasesPage />
-            </AdminLayout>
-          }
-        />
-        <Route
-          path="/admin/inquiries"
-          element={
-            <AdminLayout>
-              <AdminInquiriesPage />
-            </AdminLayout>
-          }
-        />
-        <Route
-          path="/admin/payments"
-          element={
-            <AdminLayout>
-              <AdminPaymentsPage />
-            </AdminLayout>
-          }
-        />
-        <Route
-          path="/admin/clients"
-          element={
-            <AdminLayout>
-              <AdminClientsPage />
-            </AdminLayout>
-          }
-        />
-        <Route
-          path="/admin/messages"
-          element={
-            <AdminLayout>
-              <AdminMessagesPage />
-            </AdminLayout>
-          }
-        />
-        <Route
-          path="/admin/settings"
-          element={
-            <AdminLayout>
-              <AdminSettingsPage />
-            </AdminLayout>
-          }
-        />
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLoginPage />} />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminLayout>
+                  <AdminDashboardPage />
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/admin/cases"
+              element={
+                <AdminLayout>
+                  <AdminCasesPage />
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/admin/inquiries"
+              element={
+                <AdminLayout>
+                  <AdminInquiriesPage />
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/admin/payments"
+              element={
+                <AdminLayout>
+                  <AdminPaymentsPage />
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/admin/clients"
+              element={
+                <AdminLayout>
+                  <AdminClientsPage />
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/admin/messages"
+              element={
+                <AdminLayout>
+                  <AdminMessagesPage />
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/admin/settings"
+              element={
+                <AdminLayout>
+                  <AdminSettingsPage />
+                </AdminLayout>
+              }
+            />
 
-        {/* Client Routes */}
-        <Route path="/client/login" element={<ClientLoginPage />} />
-        <Route path="/signup" element={<ClientSignupPage />} />
-        <Route
-          path="/client/dashboard"
-          element={
-            <ClientLayout>
-              <ClientDashboardPage />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/client/case/:id"
-          element={
-            <ClientLayout>
-              <ClientCaseDetailPage />
-            </ClientLayout>
-          }
-        />
-        <Route
-          path="/client/messages"
-          element={
-            <ClientLayout>
-              <ClientMessagesPage />
-            </ClientLayout>
-          }
-        />
+            {/* Client Routes */}
+            <Route path="/client/login" element={<ClientLoginPage />} />
+            <Route path="/signup" element={<ClientSignupPage />} />
+            <Route
+              path="/client/dashboard"
+              element={
+                <ClientLayout>
+                  <ClientDashboardPage />
+                </ClientLayout>
+              }
+            />
+            <Route
+              path="/client/case/:id"
+              element={
+                <ClientLayout>
+                  <ClientCaseDetailPage />
+                </ClientLayout>
+              }
+            />
+            <Route
+              path="/client/messages"
+              element={
+                <ClientLayout>
+                  <ClientMessagesPage />
+                </ClientLayout>
+              }
+            />
 
-        {/* 404 */}
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </BrowserRouter>
+            {/* 404 */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </>
   );
 }
